@@ -365,35 +365,41 @@
     }
   ],
   "current_profile": {
-    "name": "v44 plus FP32 layout, exact first-affine factorization and clone-before-transfer",
-    "scope": "One-line input preparation order change retains existing AtomicData validation before transfer and preserves caller-owned input device. Not a numerical precision change. Fresh-process ABBA ordinary changing-coordinate callbacks; no additional full EMLE/MM speedup claim. Prior profiles retained in radial_affine_update and linear_layout_update.",
-    "job_id": "8961256",
+    "name": "v44 plus linear layout, exact first-affine, input clone and periodic-aware capacities",
+    "scope": "Nonperiodic calls use zero images, including edge/cell retries. Existing geometry/highwater keys bind periodicity. Periodic sizing/growth and all refusal guards retained. No new setting/cache/service or extra per-step GPU check. Full callback gain is not a measured full EMLE/MM gain.",
+    "job_id": "8961502",
     "files_sha256": {
-      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
-      "_inference.py": "1b011f5499ba8c23feb6dec098473ed997516df4998c2a3c31c123406e8751bc",
       "_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "_inference.py": "3d1d296495cb6c6dd45ea87fa5f26d50e3d6550e42a9f570c8dfd2931003f166",
       "predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
       "mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
     },
-    "tested_predict_sha256": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+    "tested_source_sha256": {
+      "fairchem/core/models/uma/uma_nitro_xpu/_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "fairchem/core/models/uma/uma_nitro_xpu/__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "fairchem/core/models/uma/uma_nitro_xpu/_inference.py": "3d1d296495cb6c6dd45ea87fa5f26d50e3d6550e42a9f570c8dfd2931003f166",
+      "fairchem/core/units/mlip_unit/predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+      "fairchem/core/units/mlip_unit/mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
     "systems": {
       "pmd.json": {
         "controls_ms": [
-          30.96869809087366,
-          30.98749998025596
+          30.622310587204993,
+          30.623111524619162
         ],
         "candidates_ms": [
-          30.532756471075118,
-          30.563830980099738
+          30.08262743242085,
+          29.985455912537873
         ],
-        "median_speedup": 1.0140696994024703,
+        "median_speedup": 1.0196000721398786,
         "peak_allocated_control_bytes": [
-          2276606976,
-          2276606976
-        ],
-        "peak_allocated_candidate_bytes": [
           2276584448,
           2276584448
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276243968,
+          2276243968
         ],
         "peak_reserved_control_bytes": [
           null,
@@ -403,26 +409,26 @@
           null,
           null
         ],
-        "fastest_control_vs_slowest_candidate": 1.0132466087460545,
+        "fastest_control_vs_slowest_candidate": 1.017940027213265,
         "candidates_both_faster_than_both_controls": true
       },
       "cm299.json": {
         "controls_ms": [
-          22.62565412092954,
-          22.54146710038185
+          22.293575457297266,
+          22.249230067245662
         ],
         "candidates_ms": [
-          22.2370094852522,
-          22.162706591188908
+          21.85886853840202,
+          21.89555554650724
         ],
-        "median_speedup": 1.0172840101848641,
+        "median_speedup": 1.0180183251436186,
         "peak_allocated_control_bytes": [
-          2276606976,
-          2276606976
-        ],
-        "peak_allocated_candidate_bytes": [
           2276584448,
           2276584448
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276243968,
+          2276243968
         ],
         "peak_reserved_control_bytes": [
           null,
@@ -432,7 +438,7 @@
           null,
           null
         ],
-        "fastest_control_vs_slowest_candidate": 1.0136914820012812,
+        "fastest_control_vs_slowest_candidate": 1.0161527995938353,
         "candidates_both_faster_than_both_controls": true
       }
     },
@@ -440,9 +446,9 @@
       "denominator": 24,
       "complete_potential_probe_count": 21,
       "cutoff_crossing_probe_count": 3,
-      "maximum_smooth_absolute_error_kj_mol_nm": 2.1106599466875196,
-      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
-      "maximum_complete_absolute_error_kj_mol_nm": 1.4851048432756215,
+      "maximum_smooth_absolute_error_kj_mol_nm": 2.1535491440445185,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455593045529895,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.4781925578135997,
       "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
     },
     "gate_policy": {
@@ -461,23 +467,43 @@
       "absolute_tolerance_kj_mol_nm": 5.0,
       "relative_tolerance": 0.01
     },
-    "semantic_probe": {
-      "job_id": "8961245",
-      "passed_checks": 18,
-      "scope": "CPU/XPU inputs,FP32/64,stridedpositions,optionalfields,independentstorage,two-systembatch,invalidmetadatarefusal,actualcollation.",
-      "cpu_input_prepare_ms": {
-        "controls": [
-          0.5205685738474131,
-          0.5195406265556812
-        ],
-        "candidates": [
-          0.17297605518251657,
-          0.17492647748440504
-        ]
+    "graph_phase": {
+      "job": "8961481",
+      "exit_status": 0,
+      "walltime_seconds": 48,
+      "scope": "Graph construction phase only, graph-replayed four builds/replay; no NNP model/inference/MD. Exact graph and cache-transition/overflow checks pass. Not a fullNNP speedup.",
+      "systems": {
+        "pmd.json": {
+          "controls_ms": [
+            0.8849658479448408,
+            0.8856889035087079
+          ],
+          "candidates_ms": [
+            0.2794292231556028,
+            0.2797387423925102
+          ],
+          "median_saving_ms": 0.6057433929527178,
+          "conservative_speedup": 3.163544099669675
+        },
+        "cm299.json": {
+          "controls_ms": [
+            0.59110889560543,
+            0.5912009801249951
+          ],
+          "candidates_ms": [
+            0.29025672120042145,
+            0.2902404812630266
+          ],
+          "median_saving_ms": 0.30090633663348854,
+          "conservative_speedup": 2.03650373076898
+        }
       },
-      "already_xpu_input": "~.45ms unchanged"
+      "checks_passed": 21,
+      "source_sha256": "ed80644c3f86749007d29706670babd9c02c61f90c09b2767fe0eccc460fa29a"
     },
-    "maintained_source_equivalence": "Predictor bytes match native candidate exactly. Underlying Nitro calculation retains qualified8d52c753 source; no additional mathematical changes."
+    "observed_process_peak_allocated_reduction_bytes": 340480,
+    "memory_scope": "Observed process highwater, not independently reset per fixture. Table shape reduction is not the same as whole-model peak-memory reduction; reserved memory not measured.",
+    "maintained_source_equivalence": "All five maintained runtime files byte-for-byte match the native tested candidate."
   },
   "linear_layout_update": {
     "name": "v44 plus FP32 frozen-linear layout",
@@ -638,5 +664,120 @@
     },
     "timing_limit": "Openingcontrol36.05s,candidates14.39/12.29,closingcontrol14.40 show major cache/first-use effects. No10s claim; no repeatable whole-startup reduction established. Warm/cold filesystem not controlled. Extra import-only allocation deferred for science queue priority.",
     "callback_effect": "No per-step gain established. Native GPU peak allocation identical. Crossprocess forces not bitwise, including control/control; all reference limits unchanged."
+  },
+  "input_clone_update": {
+    "name": "v44 plus FP32 layout, exact first-affine factorization and clone-before-transfer",
+    "scope": "One-line input preparation order change retains existing AtomicData validation before transfer and preserves caller-owned input device. Not a numerical precision change. Fresh-process ABBA ordinary changing-coordinate callbacks; no additional full EMLE/MM speedup claim. Prior profiles retained in radial_affine_update and linear_layout_update.",
+    "job_id": "8961256",
+    "files_sha256": {
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "_inference.py": "1b011f5499ba8c23feb6dec098473ed997516df4998c2a3c31c123406e8751bc",
+      "_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+      "mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
+    "tested_predict_sha256": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+    "systems": {
+      "pmd.json": {
+        "controls_ms": [
+          30.96869809087366,
+          30.98749998025596
+        ],
+        "candidates_ms": [
+          30.532756471075118,
+          30.563830980099738
+        ],
+        "median_speedup": 1.0140696994024703,
+        "peak_allocated_control_bytes": [
+          2276606976,
+          2276606976
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276584448,
+          2276584448
+        ],
+        "peak_reserved_control_bytes": [
+          null,
+          null
+        ],
+        "peak_reserved_candidate_bytes": [
+          null,
+          null
+        ],
+        "fastest_control_vs_slowest_candidate": 1.0132466087460545,
+        "candidates_both_faster_than_both_controls": true
+      },
+      "cm299.json": {
+        "controls_ms": [
+          22.62565412092954,
+          22.54146710038185
+        ],
+        "candidates_ms": [
+          22.2370094852522,
+          22.162706591188908
+        ],
+        "median_speedup": 1.0172840101848641,
+        "peak_allocated_control_bytes": [
+          2276606976,
+          2276606976
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276584448,
+          2276584448
+        ],
+        "peak_reserved_control_bytes": [
+          null,
+          null
+        ],
+        "peak_reserved_candidate_bytes": [
+          null,
+          null
+        ],
+        "fastest_control_vs_slowest_candidate": 1.0136914820012812,
+        "candidates_both_faster_than_both_controls": true
+      }
+    },
+    "original_derivative_gate": {
+      "denominator": 24,
+      "complete_potential_probe_count": 21,
+      "cutoff_crossing_probe_count": 3,
+      "maximum_smooth_absolute_error_kj_mol_nm": 2.1106599466875196,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.4851048432756215,
+      "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+    },
+    "gate_policy": {
+      "schema_version": "reactra.reactive-force-checks/1",
+      "atoms": [
+        "mvap.O6",
+        "atp.P1",
+        "mvap.H1",
+        "atp.O4",
+        "mg2.Mg1",
+        "chain:A/residue:148/atom:N",
+        "chain:A/residue:147/atom:C",
+        "chain:A/residue:147/atom:CA"
+      ],
+      "displacement_nm": 0.0001,
+      "absolute_tolerance_kj_mol_nm": 5.0,
+      "relative_tolerance": 0.01
+    },
+    "semantic_probe": {
+      "job_id": "8961245",
+      "passed_checks": 18,
+      "scope": "CPU/XPU inputs,FP32/64,stridedpositions,optionalfields,independentstorage,two-systembatch,invalidmetadatarefusal,actualcollation.",
+      "cpu_input_prepare_ms": {
+        "controls": [
+          0.5205685738474131,
+          0.5195406265556812
+        ],
+        "candidates": [
+          0.17297605518251657,
+          0.17492647748440504
+        ]
+      },
+      "already_xpu_input": "~.45ms unchanged"
+    },
+    "maintained_source_equivalence": "Predictor bytes match native candidate exactly. Underlying Nitro calculation retains qualified8d52c753 source; no additional mathematical changes."
   }
 }

@@ -10430,6 +10430,7 @@ def _geometry_key(data):
     return (
         int(math.log(density) / math.log(GEOM_BUCKET)),
         _composition_key(data),
+        periodic,
     )
 
 
@@ -10599,8 +10600,8 @@ def _capacity_high_water(
     if high_water is None:
         high_water = {}
         backbone._uma_nitro_capacity_high_water = high_water
-    _density_bucket, composition = geom_key
-    stable_key = (natoms, dataset_name, composition)
+    _density_bucket, composition, periodic = geom_key
+    stable_key = (natoms, dataset_name, composition, periodic)
     previous = high_water.get(stable_key)
     if previous is None:
         selected = proposed.copy()
@@ -10634,7 +10635,8 @@ def _measured_caps(backbone, tensors, dataset_name, geom_key):
         # three, so the retry grows all three rather than reading which one tripped;
         # over-provisioning during the probe costs nothing, since the probe's
         # capacities are discarded except for the ones that had to grow.
-        per_atom, cell_cap, rep = EDGES_PER_ATOM, 24, 1
+        periodic = geom_key[2]
+        per_atom, cell_cap, rep = EDGES_PER_ATOM, 24, int(periodic)
         for _ in range(8):
             probe = plan_capacities(natoms, rep_max=rep, edges_per_atom=per_atom)
             probe["cell_capacity"] = cell_cap
@@ -10650,7 +10652,7 @@ def _measured_caps(backbone, tensors, dataset_name, geom_key):
                 )
             if not bool(built[4]):
                 break
-            per_atom, cell_cap, rep = per_atom * 2, cell_cap * 2, rep + 1
+            per_atom, cell_cap, rep = per_atom * 2, cell_cap * 2, rep + int(periodic)
         else:
             raise UMANitroNotSupportedError(
                 f"UMA Nitro: probe build still overflowing at {per_atom} "

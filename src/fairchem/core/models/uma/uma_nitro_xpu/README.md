@@ -87,6 +87,17 @@ and errors. This is a dependency cleanup: paired first-load timings show strong
 cache effects and do not establish a repeatable whole-startup speedup. No
 per-step or full-dynamics gain is claimed. Existing runtime prefixes remain frozen.
 
+Nonperiodic inference now uses zero periodic images, including capacity retries.
+Periodicity is bound into the existing capacity keys; periodic behavior and all
+overflow guards remain. Native job 8961481 passes 21 exact graph/cache/overflow checks,
+including same-density nonperiodic→periodic→nonperiodic transitions. Native job 8961502
+measured 29.99–30.08 ms PMD / 21.86–21.90 ms CM across four fresh A–B–B–A processes,
+512 ordinary changing-coordinate callbacks per fixture/case: a further 1.960%/1.802%
+gain (conservative 1.794%/1.615%). All eight reference/rotation rows and the unchanged
+original 24-axis derivative gate pass, worst smooth error 2.15355 kJ/mol/nm. All five
+maintained runtime files exactly match the native candidate. These results do not
+establish an additional full EMLE/MM speedup. No new user setting or cache is added.
+
 Reactra owns the enzyme fixtures, complete workflow benchmarks, EMLE acceleration
 and scheduling. This fork owns provider inference; it does not duplicate those
 engine components. Raw native experiment captures remain in the Reactra research
