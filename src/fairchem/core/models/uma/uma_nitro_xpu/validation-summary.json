@@ -363,5 +363,69 @@
         "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
       }
     }
-  ]
+  ],
+  "current_profile": {
+    "name": "v44 plus FP32 frozen-linear layout",
+    "scope": "Same mathematical model and FP32 linear operations; cached weight layout only. Initial v44 qualification remains recorded above. Additional native ABBA energy/force measurements and original derivative admission below. No full dynamics speedup inferred from this incremental gain.",
+    "job_id": "8960614",
+    "tested_candidate_sha256": "d20796cc1ec38e27f9e6419ba0880ebb00a4c3eefc068ddef77275411a36714c",
+    "files_sha256": {
+      "_inference.py": "d005b56398180a1f8f41173b126fa06f82acd3012c9625aae2110642e4e68a16",
+      "_ops.py": "3e245ec8736c6529dab0d6edafcd1605e3b1638b62e8c47ea61e0feb58706b87",
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0"
+    },
+    "systems": {
+      "pmd.json": {
+        "controls_ms": [
+          31.619421439245343,
+          31.557629466988146
+        ],
+        "candidates_ms": [
+          31.214274582453072,
+          31.201428500935435
+        ],
+        "median_speedup": 1.012198017249406,
+        "fastest_control_vs_slowest_candidate": 1.0109999315738731,
+        "candidates_both_faster_than_both_controls": true
+      },
+      "cm299.json": {
+        "controls_ms": [
+          23.02958711516112,
+          22.83095195889473
+        ],
+        "candidates_ms": [
+          22.71538251079619,
+          22.71306444890797
+        ],
+        "median_speedup": 1.0095114876970142,
+        "fastest_control_vs_slowest_candidate": 1.0050877174550599,
+        "candidates_both_faster_than_both_controls": true
+      }
+    },
+    "original_derivative_gate": {
+      "denominator": 24,
+      "complete_potential_probe_count": 21,
+      "cutoff_crossing_probe_count": 3,
+      "maximum_smooth_absolute_error_kj_mol_nm": 1.6292994688265026,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.62842848431319,
+      "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+    },
+    "gate_policy": {
+      "schema_version": "reactra.reactive-force-checks/1",
+      "atoms": [
+        "mvap.O6",
+        "atp.P1",
+        "mvap.H1",
+        "atp.O4",
+        "mg2.Mg1",
+        "chain:A/residue:148/atom:N",
+        "chain:A/residue:147/atom:C",
+        "chain:A/residue:147/atom:CA"
+      ],
+      "displacement_nm": 0.0001,
+      "absolute_tolerance_kj_mol_nm": 5.0,
+      "relative_tolerance": 0.01
+    }
+  }
 }

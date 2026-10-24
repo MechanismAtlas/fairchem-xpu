@@ -12733,7 +12733,7 @@ def _unified_radials(module, x_edge):
 
 class _LinearFrozenTN(torch.autograd.Function):
     """
-    Apply a frozen linear layer with a pre-transposed backward weight.
+    Apply a frozen linear layer with contiguous forward and backward operands.
 
     Only the input gradient is produced.
     """
@@ -12750,8 +12750,8 @@ class _LinearFrozenTN(torch.autograd.Function):
         Returns:
             ``(R, out)``.
         """
-        ctx.save_for_backward(weight_t)
-        return F.linear(x, weight, bias)
+        ctx.save_for_backward(weight)
+        return F.linear(x, weight_t.t(), bias)
 
     @staticmethod
     def backward(ctx, grad_out):
@@ -12762,8 +12762,8 @@ class _LinearFrozenTN(torch.autograd.Function):
         Returns:
             ``dx`` only.
         """
-        (weight_t,) = ctx.saved_tensors
-        return grad_out.contiguous().mm(weight_t.t()), None, None, None
+        (weight,) = ctx.saved_tensors
+        return grad_out.contiguous().mm(weight), None, None, None
 
 
 TN_INNER = os.environ.get("UMA_NITRO_TN_INNER", "1") == "1"

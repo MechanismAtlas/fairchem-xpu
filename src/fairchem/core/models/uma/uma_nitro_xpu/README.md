@@ -34,13 +34,24 @@ charge reduction. Selected adjoints retain measured narrower arithmetic.
 It is not bitwise-equivalent to general float64 inference. Capacity overflow
 continues to refuse rather than silently truncate neighbors.
 
-The qualified v44 experiment measured approximately 32.03 ms per PMD energy/force
+The initial qualified v44 experiment measured approximately 32.03 ms per PMD energy/force
 call (416 atoms) and 23.10 ms for CM (299 atoms). Three fresh-process PMD
 24-axis derivative checks passed the unchanged 0.0001 nm displacement and
 5 kJ/mol/nm plus 1% policy. Reference-force, three rotation and graph/overflow
 checks passed on both fixtures. See `validation-summary.json` for source hashes
 and numerical summaries. These checks do not establish general chemical accuracy,
 long trajectory stability, reaction crossings or free-energy barriers.
+
+The current default also uses contiguous operands for the existing frozen FP32
+linear layers. Native job 8960614 compared four fresh processes in an A–B–B–A
+sequence, with 512 synchronized callbacks per system and case. Candidate medians
+were 31.21 ms PMD and 22.71 ms CM, approximately 1.2% and 0.9% faster than the
+paired controls. Both candidate runs beat both controls; the conservative gain is
+about 1.1% PMD and 0.5% CM. Reference and three-rotation checks pass, as does the
+original PMD 24-axis derivative policy. Startup is excluded; this incremental
+callback gain is not a measured full-dynamics speedup. The four-product GEMM and
+shape-specific tiling alternatives were rejected. See `current_profile` in the
+validation summary for exact source identity and numerical evidence.
 
 Reactra owns the enzyme fixtures, complete workflow benchmarks, EMLE acceleration
 and scheduling. This fork owns provider inference; it does not duplicate those
