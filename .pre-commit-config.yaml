@@ -19,4 +19,6 @@ repos:
   hooks:
   - id: trailing-whitespace
   - id: check-added-large-files
+    # Retain the upstream monolithic Nitro implementation and its embedded notices.
+    exclude: ^src/fairchem/core/models/uma/uma_nitro_xpu/_inference\.py$
   - id: end-of-file-fixer

@@ -296,6 +296,16 @@ configs/                 # Hydra YAML configs (datasets, tasks, backbone, optimi
 
 ## Cluster Validation Gotchas
 
+- Native v44 combines fixed Wigner gauge, sorted exact neighbor buckets and a
+  fixed charge-reduction tree with FP32 forward activations. The three reductions
+  stabilize energy; reducing force RMS alone did not ensure finite differences.
+  Rotation covariance and graph/overflow checks cover the gauge/order changes.
+- Aurora XPU two-half forward GEMMs must decode the rounded half through its
+  integer bits before forming the low residual. Native tests showed the direct
+  half-to-float residual vanished downstream despite surviving TTIR/LLVM IR.
+  Compare against double-precision arithmetic and retain small-scale, strided,
+  biased/scaled cases before model-level validation. Passing force RMS alone
+  does not establish finite-difference consistency; use the declared small step.
 - H100 compute nodes do not have PyPI egress. Provision Python environments on
   the submission host before launching validation jobs.
 - Imports from home-backed virtual environments are extremely slow on H100
