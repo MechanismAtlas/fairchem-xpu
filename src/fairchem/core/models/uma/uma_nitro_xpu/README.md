@@ -77,6 +77,16 @@ reference/rotation rows and the original 24-axis derivative gate pass unchanged
 already on XPU. No new setting, cache or validation path is introduced. This is
 not an additional full-dynamics speedup or current production chemistry claim.
 
+Inference additionally avoids importing training telemetry: the WandB logger
+import now lives at its two existing training-use sites. Logger conditions and
+all model calculations remain unchanged. Native job 8961320 passes all eight
+reference/rotation rows and the unchanged original 24-axis derivative gate
+(worst smooth error 2.19494 kJ/mol/nm), with WandB absent throughout candidate
+inference. Thirty-two lightweight logger-block cases preserve training results
+and errors. This is a dependency cleanup: paired first-load timings show strong
+cache effects and do not establish a repeatable whole-startup speedup. No
+per-step or full-dynamics gain is claimed. Existing runtime prefixes remain frozen.
+
 Reactra owns the enzyme fixtures, complete workflow benchmarks, EMLE acceleration
 and scheduling. This fork owns provider inference; it does not duplicate those
 engine components. Raw native experiment captures remain in the Reactra research

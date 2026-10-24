@@ -372,7 +372,8 @@
       "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
       "_inference.py": "1b011f5499ba8c23feb6dec098473ed997516df4998c2a3c31c123406e8751bc",
       "_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
-      "predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92"
+      "predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+      "mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
     },
     "tested_predict_sha256": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
     "systems": {
@@ -611,5 +612,31 @@
     },
     "observed_peak_allocator_increase_bytes": 25345024,
     "maintained_source_equivalence": "Inference and kernel calculation AST match native candidate; docstrings/formatting and equivalent split conjunction assertions only."
+  },
+  "training_telemetry_import_update": {
+    "scope": "Remove eager training-only WandB import from inference. Same import at both training-use sites; existing logger expressions and all other AST nodes unchanged. Dependency reduction, not a claimed per-step or reliably quantified startup gain.",
+    "job_id": "8961320",
+    "files_sha256": {
+      "units/mlip_unit/mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
+    "native_checks": "All8 reference/rotation rows pass; WandB/common.logger absent after actual candidate inference, present in controls. Original24axis derivative gate unchanged and passes.",
+    "training_checks": "32 old/new actual logger-use block states compare results/errors/short-circuit calls. Includes master/debug/configured/missing initialization. No full training run claim.",
+    "original_derivative_gate": {
+      "denominator": 24,
+      "complete_potential_probe_count": 21,
+      "cutoff_crossing_probe_count": 3,
+      "maximum_smooth_absolute_error_kj_mol_nm": 2.194939981913194,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.5039941740687937,
+      "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+    },
+    "startup_first_load_s": {
+      "control-before": 36.05093500693329,
+      "logger-first": 14.388150623999536,
+      "logger-second": 12.293407516088337,
+      "control-after": 14.39559609000571
+    },
+    "timing_limit": "Openingcontrol36.05s,candidates14.39/12.29,closingcontrol14.40 show major cache/first-use effects. No10s claim; no repeatable whole-startup reduction established. Warm/cold filesystem not controlled. Extra import-only allocation deferred for science queue priority.",
+    "callback_effect": "No per-step gain established. Native GPU peak allocation identical. Crossprocess forces not bitwise, including control/control; all reference limits unchanged."
   }
 }
