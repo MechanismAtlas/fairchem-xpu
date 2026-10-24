@@ -65,6 +65,18 @@ Observed allocator peak increases by about 24 MiB. This adds no user settings
 or service; it does not establish an additional full-dynamics speedup. Exact
 source identities and controls are recorded in `current_profile`.
 
+The current default additionally clones input data before transfer. This retains
+all existing validation while avoiding GPU cloning and scalar synchronization for
+CPU inputs, and leaves caller-owned data on its original device. Native job
+8961256, with four fresh A–B–B–A processes and 512 changing-coordinate ordinary
+Reactra callbacks per fixture/case, measured 30.53–30.56 ms PMD and 22.16–22.24 ms
+CM: a further 1.4%/1.7% gain. Both candidates beat both controls. All eight
+reference/rotation rows and the original 24-axis derivative gate pass unchanged
+(worst smooth error 2.11066 kJ/mol/nm). Separate native probe 8961245 passes
+18 field/dtype/aliasing/striding/batching/refusal/collation checks, including inputs
+already on XPU. No new setting, cache or validation path is introduced. This is
+not an additional full-dynamics speedup or current production chemistry claim.
+
 Reactra owns the enzyme fixtures, complete workflow benchmarks, EMLE acceleration
 and scheduling. This fork owns provider inference; it does not duplicate those
 engine components. Raw native experiment captures remain in the Reactra research
