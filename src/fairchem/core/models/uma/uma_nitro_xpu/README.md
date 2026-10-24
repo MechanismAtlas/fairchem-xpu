@@ -53,6 +53,18 @@ callback gain is not a measured full-dynamics speedup. The four-product GEMM and
 shape-specific tiling alternatives were rejected. See `current_profile` in the
 validation summary for exact source identity and numerical evidence.
 
+The current default also factors the first merged radial affine head exactly.
+Its 32 Gaussian inputs depend on distance; the frozen source/target element
+embeddings are projected once into a model-owned ordered-type cache. Runtime
+evaluates the smaller Gaussian projection and gathers the constant contribution.
+The original backward calculation is retained. Native job 8960750 measured
+30.67–30.72 ms PMD and 22.32–22.36 ms CM in an A–B–B–A comparison, a further
+1.3%/1.6% callback gain. References, rotations and the original 24-axis gate pass;
+worst smooth derivative error is 2.0764 kJ/mol/nm under the unchanged policy.
+Observed allocator peak increases by about 24 MiB. This adds no user settings
+or service; it does not establish an additional full-dynamics speedup. Exact
+source identities and controls are recorded in `current_profile`.
+
 Reactra owns the enzyme fixtures, complete workflow benchmarks, EMLE acceleration
 and scheduling. This fork owns provider inference; it does not duplicate those
 engine components. Raw native experiment captures remain in the Reactra research

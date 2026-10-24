@@ -13307,7 +13307,24 @@ class _MergedRadialHead(torch.autograd.Function):
     """
 
     @staticmethod
-    def forward(ctx, x_edge, xe_tok, w, w16, b, wt16, lw, lb, eps, hidden, nblocks):
+    def forward(
+        ctx,
+        x_edge,
+        xe_tok,
+        w,
+        w16,
+        b,
+        wt16,
+        lw,
+        lb,
+        eps,
+        hidden,
+        nblocks,
+        atomic_numbers,
+        edge_index,
+        pair_bias,
+        g_weight,
+    ):
         """
         Args:
             x_edge: Edge embedding, ``(E, 288)``.
@@ -13323,6 +13340,10 @@ class _MergedRadialHead(torch.autograd.Function):
             eps: LayerNorm epsilon.
             hidden: Columns per block.
             nblocks: Number of column blocks.
+            atomic_numbers: Live per-node element indices.
+            edge_index: Live source/target indices of the padded radius graph.
+            pair_bias: Frozen source/target embedding projection and bias, by ordered type pair.
+            g_weight: Contiguous transposed weight for the distance-dependent Gaussian block.
 
         Returns:
             ``nblocks`` block tensors, followed by ``nblocks`` gradient tokens when
@@ -13331,11 +13352,13 @@ class _MergedRadialHead(torch.autograd.Function):
         """
         narrow = _ln1_narrow()
         gnarrow = narrow and _gradblk_narrow()
-        h_all = (
-            fp16_mm(x_edge, w16, bias=b)
-            if x_edge.dtype == torch.float16
-            else F.linear(x_edge, w, b)
-        )
+        if x_edge.dtype == torch.float16:
+            h_all = fp16_mm(x_edge, w16, bias=b)
+        else:
+            from ._ops import radial_head_bias
+
+            h_all = F.linear(x_edge[:, : g_weight.shape[0]], g_weight.t())
+            radial_head_bias(h_all, pair_bias, atomic_numbers, edge_index)
         rows = h_all.shape[0]
         joint = torch.empty(
             (nblocks, rows, hidden),
@@ -13426,7 +13449,7 @@ class _MergedRadialHead(torch.autograd.Function):
             grad_h,
             rscale,
         )
-        tail = (None,) * 9
+        tail = (None,) * 13
         if ctx.xe_narrow:
             gx = torch.empty(
                 rows, wt16.shape[0], device=h_all.device, dtype=torch.float16
@@ -13746,7 +13769,16 @@ class _LinearFp16Tok(torch.autograd.Function):
         return None, grad_out.contiguous().mm(wt.t()), None, None, None, None
 
 
-def _merged_radials(backbone, x_edge, xe_tok=None, after=None, degree_stop=None):
+def _merged_radials(
+    backbone,
+    x_edge,
+    xe_tok=None,
+    after=None,
+    degree_stop=None,
+    *,
+    atomic_numbers,
+    edge_index,
+):
     """
     Run one merged radial projection for its two consumers.
 
@@ -13763,6 +13795,17 @@ def _merged_radials(backbone, x_edge, xe_tok=None, after=None, degree_stop=None)
         b = torch.cat([layers[0].bias, mlp.b1_cat], dim=0)
         lw = torch.cat([layers[1].weight.reshape(1, -1), mlp.ln1_weight], dim=0)
         lb = torch.cat([layers[1].bias.reshape(1, -1), mlp.ln1_bias], dim=0)
+        gaussian_columns = backbone.distance_expansion.offset.numel()
+        source_weights = backbone.source_embedding.weight
+        target_weights = backbone.target_embedding.weight
+        channels = source_weights.shape[1]
+        assert w.shape[1] == gaussian_columns + channels + target_weights.shape[1]
+        source_bias = F.linear(
+            source_weights, w[:, gaussian_columns : gaussian_columns + channels]
+        )
+        target_bias = F.linear(target_weights, w[:, gaussian_columns + channels :])
+        pair_bias = (source_bias[:, None, :] + target_bias[None, :, :] + b).contiguous()
+        g_weight = w[:, :gaussian_columns].t().contiguous()
         cache = (
             w,
             b,
@@ -13794,6 +13837,8 @@ def _merged_radials(backbone, x_edge, xe_tok=None, after=None, degree_stop=None)
             # Worst-case magnitude of the fp16 `grad_blocks` store, checked against
             # the live weights rather than assumed. Raises if it would overflow.
             _gradblk_bound(mlp.fc2_weight),
+            pair_bias,
+            g_weight,
         )
         if not layers[0].weight.requires_grad:
             backbone._uma_nitro_merged_radial = cache
@@ -13813,6 +13858,8 @@ def _merged_radials(backbone, x_edge, xe_tok=None, after=None, degree_stop=None)
         deg_w16,
         w16,
         _gb_worst,
+        pair_bias,
+        g_weight,
     ) = cache
     hidden = mlp.hidden_features
     nblk = mlp.num_layers + 1
@@ -13827,7 +13874,21 @@ def _merged_radials(backbone, x_edge, xe_tok=None, after=None, degree_stop=None)
     gbinv = None
     if FP16_MERGED_BWD:
         out = _MergedRadialHead.apply(
-            x_edge, xe_tok, w, w16, b, wt16, lw, lb, mlp.ln_eps, hidden, nblk
+            x_edge,
+            xe_tok,
+            w,
+            w16,
+            b,
+            wt16,
+            lw,
+            lb,
+            mlp.ln_eps,
+            hidden,
+            nblk,
+            atomic_numbers,
+            edge_index,
+            pair_bias,
+            g_weight,
         )
         # Slice on the returned arity rather than on a locally recomputed
         # predicate, so the two can never disagree about how many tokens exist.
@@ -14231,13 +14292,21 @@ def _backbone_forward(backbone, tensors, dataset_name, graph):
             backbone,
             x_edge,
             xe_tok=xe_tok,
+            atomic_numbers=atomic_numbers,
+            edge_index=edge_index,
             after=_edge_degree_reduce_fused if _fuse_m0lin else _edge_degree_reduce,
             degree_stop=(
                 len(edge_degree.rad_func.net._modules) - 1 if _fuse_m0lin else None
             ),
         )
     else:
-        radial, _merged_per_layer = _merged_radials(backbone, x_edge, xe_tok)
+        radial, _merged_per_layer = _merged_radials(
+            backbone,
+            x_edge,
+            xe_tok,
+            atomic_numbers=atomic_numbers,
+            edge_index=edge_index,
+        )
         x_message = _edge_degree_reduce(radial)
 
     bc_scratch = _bc_scratch(backbone, x_message, natoms, backbone.num_layers)

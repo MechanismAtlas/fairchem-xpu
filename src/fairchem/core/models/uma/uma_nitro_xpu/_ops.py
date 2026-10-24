@@ -233,3 +233,52 @@ def canonicalize_buckets(flat, capacity, buckets):
     wrap_triton(_sort_buckets)[(triton.cdiv(buckets, 4),)](
         flat, capacity, buckets, WIDTH=triton.next_power_of_2(capacity), num_warps=4
     )
+
+
+@triton.jit
+def _radial_head_bias(
+    h,
+    table,
+    numbers,
+    edges,
+    stride,
+    M: tl.constexpr,
+    N: tl.constexpr,
+    Z: tl.constexpr,
+    B: tl.constexpr,
+):
+    index = tl.program_id(0) * B + tl.arange(0, B)
+    valid = index < M * N
+    row, column = index // N, index % N
+    source = tl.load(edges + row, mask=valid, other=0)
+    target = tl.load(edges + stride + row, mask=valid, other=0)
+    source_type = tl.load(numbers + source)
+    target_type = tl.load(numbers + target)
+    value = tl.load(h + index, mask=valid, other=0)
+    value += tl.load(
+        table + (source_type * Z + target_type) * N + column, mask=valid, other=0
+    )
+    tl.store(h + index, value, mask=valid)
+
+
+@triton_op("uma_nitro_xpu::radial_head_bias", mutates_args={"out"})
+def radial_head_bias(
+    out: torch.Tensor, table: torch.Tensor, numbers: torch.Tensor, edges: torch.Tensor
+) -> None:
+    """Add the frozen ordered-type head contribution to the dynamic Gaussian projection."""
+    assert table.is_contiguous()
+    assert out.is_contiguous()
+    assert table.shape[2] == out.shape[1]
+    assert edges.shape[1] == out.shape[0]
+    wrap_triton(_radial_head_bias)[(triton.cdiv(out.numel(), 1024),)](
+        out,
+        table,
+        numbers,
+        edges,
+        edges.stride(0),
+        M=out.shape[0],
+        N=out.shape[1],
+        Z=table.shape[1],
+        B=1024,
+        num_warps=4,
+    )
