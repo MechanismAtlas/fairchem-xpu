@@ -6765,6 +6765,21 @@ def wigner_conv1_fused_bwd_fp16_kernel(
             g_m7t * rc_t,
         )
 
+        _p = tl.arange(0, 128)
+        _prow = _p // 9
+        _pcol = _p % 9
+        _inb = (
+            ((_prow == 0) & (_pcol == 0))
+            | ((_prow >= 1) & (_prow <= 3) & (_pcol >= 1) & (_pcol <= 3))
+            | ((_prow >= 4) & (_pcol >= 4))
+        )
+        tl.store(
+            gwig_ptr + w_base + _p,
+            tl.zeros((128,), dtype=tl.float32),
+            mask=(_p < 81) & (_inb == 0),
+        )
+        _wig_dw_store2(gwig_ptr, w_base, gys, xs, gyt, xt)
+
         # ---- grad_x = W^T @ g_l (block-diagonal); g_l is L-major grad wrt y ----
         # explicit expressions reusing the single wigner load above; matches the
         # original bit-for-bit (grad_x FMA contraction is 1-ULP sensitive)
@@ -6846,21 +6861,6 @@ def wigner_conv1_fused_bwd_fp16_kernel(
                         (dxt[i] * sc).to(tl.float16),
                         mask=c_mask,
                     )
-
-        _p = tl.arange(0, 128)
-        _prow = _p // 9
-        _pcol = _p % 9
-        _inb = (
-            ((_prow == 0) & (_pcol == 0))
-            | ((_prow >= 1) & (_prow <= 3) & (_pcol >= 1) & (_pcol <= 3))
-            | ((_prow >= 4) & (_pcol >= 4))
-        )
-        tl.store(
-            gwig_ptr + w_base + _p,
-            tl.zeros((128,), dtype=tl.float32),
-            mask=(_p < 81) & (_inb == 0),
-        )
-        _wig_dw_store2(gwig_ptr, w_base, gys, xs, gyt, xt)
 
         edge_id += GRID_E_STRIDE
 

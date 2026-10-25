@@ -98,6 +98,21 @@ original 24-axis derivative gate pass, worst smooth error 2.15355 kJ/mol/nm. All
 maintained runtime files exactly match the native candidate. These results do not
 establish an additional full EMLE/MM speedup. No new user setting or cache is added.
 
+The fused conv1 backward now stores its completed Wigner-weight gradient before
+forming the node gradient, shortening register lifetimes. It only reorders
+existing statements; no operation, setting or precision is added. Native job
+8961648 completed successfully in 9m16s. Four fresh A–B–B–A processes, with 512
+changing-coordinate callbacks per system/case, measured PMD 30.138/30.016 ms
+controls versus 29.603/29.660 ms candidates; CM 21.925/21.939 versus
+21.586/21.499 ms. Median gains are 1.502%/1.808%, conservative comparisons
+1.200%/1.570%. Both candidates beat both controls. All eight reference/rotation
+rows and the unchanged original 24-axis gate pass (worst smooth error
+2.06140 kJ/mol/nm); peak GPU allocation is unchanged. This is a callback gain,
+not an additional complete EMLE/MM measurement. The formatted source removes
+one blank line from retained native source, with identical ASTs; both hashes are
+recorded explicitly. Earlier profiles remain in the validation summary, and
+existing runtime prefixes remain frozen.
+
 Reactra owns the enzyme fixtures, complete workflow benchmarks, EMLE acceleration
 and scheduling. This fork owns provider inference; it does not duplicate those
 engine components. Raw native experiment captures remain in the Reactra research

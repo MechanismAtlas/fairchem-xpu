@@ -365,37 +365,40 @@
     }
   ],
   "current_profile": {
-    "name": "v44 plus linear layout, exact first-affine, input clone and periodic-aware capacities",
-    "scope": "Nonperiodic calls use zero images, including edge/cell retries. Existing geometry/highwater keys bind periodicity. Periodic sizing/growth and all refusal guards retained. No new setting/cache/service or extra per-step GPU check. Full callback gain is not a measured full EMLE/MM gain.",
-    "job_id": "8961502",
+    "name": "v44 plus linear layout, exact first-affine, input clone, periodic-aware capacities and C1B lifetime reorder",
+    "scope": "Move the existing C1B gradW zero/store block before gradX. No new operations, runtime path, user setting or precision change. Full callback improvement is not an additional full EMLE/MM gain.",
+    "job_id": "8961648",
+    "exit_status": 0,
+    "walltime_seconds": 556,
     "files_sha256": {
       "_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
       "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
-      "_inference.py": "3d1d296495cb6c6dd45ea87fa5f26d50e3d6550e42a9f570c8dfd2931003f166",
+      "_inference.py": "80449c5005e55870e6de650afc7c871375aed9b98a57897fe51dee1f1f5d1113",
       "predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
       "mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
     },
     "tested_source_sha256": {
+      "fairchem/core/models/uma/uma_nitro_xpu/_inference.py": "fb406e42396b678b54fb77768dee095cfd07a997745c2b1be155868bfa6a8f85",
       "fairchem/core/models/uma/uma_nitro_xpu/_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
       "fairchem/core/models/uma/uma_nitro_xpu/__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
-      "fairchem/core/models/uma/uma_nitro_xpu/_inference.py": "3d1d296495cb6c6dd45ea87fa5f26d50e3d6550e42a9f570c8dfd2931003f166",
       "fairchem/core/units/mlip_unit/predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
       "fairchem/core/units/mlip_unit/mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
     },
+    "source_ast_sha256": "5c9779a9fb609ca816e0137d37db39bd536aa2e286e2354a84d78f16a1bb8056",
     "systems": {
       "pmd.json": {
         "controls_ms": [
-          30.622310587204993,
-          30.623111524619162
+          30.13793902937323,
+          30.01615055836737
         ],
         "candidates_ms": [
-          30.08262743242085,
-          29.985455912537873
+          29.6033431077376,
+          29.660350061021745
         ],
-        "median_speedup": 1.0196000721398786,
+        "median_speedup": 1.0150243154176328,
         "peak_allocated_control_bytes": [
-          2276584448,
-          2276584448
+          2276243968,
+          2276243968
         ],
         "peak_allocated_candidate_bytes": [
           2276243968,
@@ -409,22 +412,22 @@
           null,
           null
         ],
-        "fastest_control_vs_slowest_candidate": 1.017940027213265,
+        "fastest_control_vs_slowest_candidate": 1.0119958293349074,
         "candidates_both_faster_than_both_controls": true
       },
       "cm299.json": {
         "controls_ms": [
-          22.293575457297266,
-          22.249230067245662
+          21.924669039435685,
+          21.93938847631216
         ],
         "candidates_ms": [
-          21.85886853840202,
-          21.89555554650724
+          21.585867507383227,
+          21.499115508049726
         ],
-        "median_speedup": 1.0180183251436186,
+        "median_speedup": 1.0180822747460716,
         "peak_allocated_control_bytes": [
-          2276584448,
-          2276584448
+          2276243968,
+          2276243968
         ],
         "peak_allocated_candidate_bytes": [
           2276243968,
@@ -438,7 +441,7 @@
           null,
           null
         ],
-        "fastest_control_vs_slowest_candidate": 1.0161527995938353,
+        "fastest_control_vs_slowest_candidate": 1.0156955254143283,
         "candidates_both_faster_than_both_controls": true
       }
     },
@@ -446,9 +449,9 @@
       "denominator": 24,
       "complete_potential_probe_count": 21,
       "cutoff_crossing_probe_count": 3,
-      "maximum_smooth_absolute_error_kj_mol_nm": 2.1535491440445185,
-      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455593045529895,
-      "maximum_complete_absolute_error_kj_mol_nm": 1.4781925578135997,
+      "maximum_smooth_absolute_error_kj_mol_nm": 2.0613969753030688,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.4537130235694349,
       "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
     },
     "gate_policy": {
@@ -467,43 +470,17 @@
       "absolute_tolerance_kj_mol_nm": 5.0,
       "relative_tolerance": 0.01
     },
-    "graph_phase": {
-      "job": "8961481",
-      "exit_status": 0,
-      "walltime_seconds": 48,
-      "scope": "Graph construction phase only, graph-replayed four builds/replay; no NNP model/inference/MD. Exact graph and cache-transition/overflow checks pass. Not a fullNNP speedup.",
-      "systems": {
-        "pmd.json": {
-          "controls_ms": [
-            0.8849658479448408,
-            0.8856889035087079
-          ],
-          "candidates_ms": [
-            0.2794292231556028,
-            0.2797387423925102
-          ],
-          "median_saving_ms": 0.6057433929527178,
-          "conservative_speedup": 3.163544099669675
-        },
-        "cm299.json": {
-          "controls_ms": [
-            0.59110889560543,
-            0.5912009801249951
-          ],
-          "candidates_ms": [
-            0.29025672120042145,
-            0.2902404812630266
-          ],
-          "median_saving_ms": 0.30090633663348854,
-          "conservative_speedup": 2.03650373076898
-        }
-      },
-      "checks_passed": 21,
-      "source_sha256": "ed80644c3f86749007d29706670babd9c02c61f90c09b2767fe0eccc460fa29a"
+    "reference_rows_passed": 8,
+    "three_rotation_rows_passed": 8,
+    "numerical_limits": {
+      "force_rms_ev_angstrom": 0.0005,
+      "force_max_ev_angstrom": 0.003,
+      "relative_energy_max_error_ev": 0.003
     },
-    "observed_process_peak_allocated_reduction_bytes": 340480,
-    "memory_scope": "Observed process highwater, not independently reset per fixture. Table shape reduction is not the same as whole-model peak-memory reduction; reserved memory not measured.",
-    "maintained_source_equivalence": "All five maintained runtime files byte-for-byte match the native tested candidate."
+    "performance_scope": "Four sequential fresh A-B-B-A processes,512 changing-coordinate host-to-host E/F callbacks per fixture/case after warmup. Startup excluded; shared compiler cache, not filesystem-cold or compiler-empty.",
+    "memory_scope": "Observed process highwater unchanged. Reserved memory not measured.",
+    "maintained_source_equivalence": "Formatted _inference.py removes exactly one blank line from retained native source; full ASTs match. Other four runtime files match native bytes exactly. Both source hashes retained; no inference-file byte-identity claim.",
+    "reactra_research_archive": "research/nnp-acceleration/c1b-lifetime-v5/native"
   },
   "linear_layout_update": {
     "name": "v44 plus FP32 frozen-linear layout",
@@ -779,5 +756,146 @@
       "already_xpu_input": "~.45ms unchanged"
     },
     "maintained_source_equivalence": "Predictor bytes match native candidate exactly. Underlying Nitro calculation retains qualified8d52c753 source; no additional mathematical changes."
+  },
+  "periodic_capacity_update": {
+    "name": "v44 plus linear layout, exact first-affine, input clone and periodic-aware capacities",
+    "scope": "Nonperiodic calls use zero images, including edge/cell retries. Existing geometry/highwater keys bind periodicity. Periodic sizing/growth and all refusal guards retained. No new setting/cache/service or extra per-step GPU check. Full callback gain is not a measured full EMLE/MM gain.",
+    "job_id": "8961502",
+    "files_sha256": {
+      "_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "_inference.py": "3d1d296495cb6c6dd45ea87fa5f26d50e3d6550e42a9f570c8dfd2931003f166",
+      "predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+      "mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
+    "tested_source_sha256": {
+      "fairchem/core/models/uma/uma_nitro_xpu/_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "fairchem/core/models/uma/uma_nitro_xpu/__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "fairchem/core/models/uma/uma_nitro_xpu/_inference.py": "3d1d296495cb6c6dd45ea87fa5f26d50e3d6550e42a9f570c8dfd2931003f166",
+      "fairchem/core/units/mlip_unit/predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+      "fairchem/core/units/mlip_unit/mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
+    "systems": {
+      "pmd.json": {
+        "controls_ms": [
+          30.622310587204993,
+          30.623111524619162
+        ],
+        "candidates_ms": [
+          30.08262743242085,
+          29.985455912537873
+        ],
+        "median_speedup": 1.0196000721398786,
+        "peak_allocated_control_bytes": [
+          2276584448,
+          2276584448
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276243968,
+          2276243968
+        ],
+        "peak_reserved_control_bytes": [
+          null,
+          null
+        ],
+        "peak_reserved_candidate_bytes": [
+          null,
+          null
+        ],
+        "fastest_control_vs_slowest_candidate": 1.017940027213265,
+        "candidates_both_faster_than_both_controls": true
+      },
+      "cm299.json": {
+        "controls_ms": [
+          22.293575457297266,
+          22.249230067245662
+        ],
+        "candidates_ms": [
+          21.85886853840202,
+          21.89555554650724
+        ],
+        "median_speedup": 1.0180183251436186,
+        "peak_allocated_control_bytes": [
+          2276584448,
+          2276584448
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276243968,
+          2276243968
+        ],
+        "peak_reserved_control_bytes": [
+          null,
+          null
+        ],
+        "peak_reserved_candidate_bytes": [
+          null,
+          null
+        ],
+        "fastest_control_vs_slowest_candidate": 1.0161527995938353,
+        "candidates_both_faster_than_both_controls": true
+      }
+    },
+    "original_derivative_gate": {
+      "denominator": 24,
+      "complete_potential_probe_count": 21,
+      "cutoff_crossing_probe_count": 3,
+      "maximum_smooth_absolute_error_kj_mol_nm": 2.1535491440445185,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455593045529895,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.4781925578135997,
+      "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+    },
+    "gate_policy": {
+      "schema_version": "reactra.reactive-force-checks/1",
+      "atoms": [
+        "mvap.O6",
+        "atp.P1",
+        "mvap.H1",
+        "atp.O4",
+        "mg2.Mg1",
+        "chain:A/residue:148/atom:N",
+        "chain:A/residue:147/atom:C",
+        "chain:A/residue:147/atom:CA"
+      ],
+      "displacement_nm": 0.0001,
+      "absolute_tolerance_kj_mol_nm": 5.0,
+      "relative_tolerance": 0.01
+    },
+    "graph_phase": {
+      "job": "8961481",
+      "exit_status": 0,
+      "walltime_seconds": 48,
+      "scope": "Graph construction phase only, graph-replayed four builds/replay; no NNP model/inference/MD. Exact graph and cache-transition/overflow checks pass. Not a fullNNP speedup.",
+      "systems": {
+        "pmd.json": {
+          "controls_ms": [
+            0.8849658479448408,
+            0.8856889035087079
+          ],
+          "candidates_ms": [
+            0.2794292231556028,
+            0.2797387423925102
+          ],
+          "median_saving_ms": 0.6057433929527178,
+          "conservative_speedup": 3.163544099669675
+        },
+        "cm299.json": {
+          "controls_ms": [
+            0.59110889560543,
+            0.5912009801249951
+          ],
+          "candidates_ms": [
+            0.29025672120042145,
+            0.2902404812630266
+          ],
+          "median_saving_ms": 0.30090633663348854,
+          "conservative_speedup": 2.03650373076898
+        }
+      },
+      "checks_passed": 21,
+      "source_sha256": "ed80644c3f86749007d29706670babd9c02c61f90c09b2767fe0eccc460fa29a"
+    },
+    "observed_process_peak_allocated_reduction_bytes": 340480,
+    "memory_scope": "Observed process highwater, not independently reset per fixture. Table shape reduction is not the same as whole-model peak-memory reduction; reserved memory not measured.",
+    "maintained_source_equivalence": "All five maintained runtime files byte-for-byte match the native tested candidate."
   }
 }
