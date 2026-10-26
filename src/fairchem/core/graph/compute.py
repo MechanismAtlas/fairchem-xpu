@@ -13,7 +13,6 @@ from fairchem.core.graph.radius_graph_pbc import (
     radius_graph_pbc,
     radius_graph_pbc_v2,
 )
-from fairchem.core.graph.radius_graph_pbc_nvidia import radius_graph_pbc_nvidia
 
 
 def filter_edges_by_node_partition(
@@ -155,6 +154,9 @@ def generate_graph(
         if node_partition is not None:
             data["node_partition"] = node_partition
     elif radius_pbc_version == 3:
+        # Register the optional CUDA/Warp operations only when requested.
+        from fairchem.core.graph.radius_graph_pbc_nvidia import radius_graph_pbc_nvidia
+
         radius_graph_pbc_fn = radius_graph_pbc_nvidia
     else:
         raise ValueError(f"Invalid radius_pbc version {radius_pbc_version}")

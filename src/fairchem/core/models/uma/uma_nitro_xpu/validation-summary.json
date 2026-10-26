@@ -1,0 +1,901 @@
+{
+  "experiment": "v44",
+  "job_id": "8959707",
+  "source": {
+    "files_sha256": {
+      "_inference.py": "20bd8009a10fcfcdc68e92d213fb25b0c5ebe9fe68f6074e2ba071ae4576dd94",
+      "_ops.py": "3e245ec8736c6529dab0d6edafcd1605e3b1638b62e8c47ea61e0feb58706b87",
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0"
+    },
+    "base_revision": "5ea25ebb68f043395b299344760852726d2a2bce",
+    "common_files_sha256": {
+      "datasets/atomic_data.py": "c6c557513c60a33d5af505ca4b9e51c090903142b357e9c4cd6ac47e33c66337",
+      "graph/compute.py": "20b2ed58adf33d19db1c0ffaaf8266a6ad9df5a0854ebf810027cc43adfa1fee"
+    },
+    "common_files_scope": "Local and deployed v44 SHA256 identical; optional NVIDIA graph imports remain lazy."
+  },
+  "scope": "Same frozen engine and scheduler. FP32 forward+two-half GEMM combined with fixed Wigner gauge, ordered exact buckets, charge reduction tree. No gate or reference-limit changes.",
+  "model_rows": [
+    {
+      "fixture": "pmd.json",
+      "median_ms": 32.031783484853804,
+      "reference_comparison": {
+        "force_rms_ev_angstrom": 0.0001863496265930912,
+        "force_max_ev_angstrom": 0.0009235756242023108,
+        "relative_energy_max_error_ev": 4.975474439561367e-06
+      },
+      "same_coordinate_energy_range_ev": 1.7462298274040222e-10,
+      "rotation_covariance": {
+        "passed": true,
+        "observations": [
+          {
+            "rotation": "cyclic_axes",
+            "matrix": [
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ],
+              [
+                1.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "errors": {
+              "relative_energy_max_error_ev": 2.1972227841615677e-06,
+              "force_rms_ev_angstrom": 0.00013967470693955356,
+              "force_max_ev_angstrom": 0.0007020980119705061
+            },
+            "passed": true
+          },
+          {
+            "rotation": "half_turn_x",
+            "matrix": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                -1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                -1.0
+              ]
+            ],
+            "errors": {
+              "relative_energy_max_error_ev": 3.099616151303053e-06,
+              "force_rms_ev_angstrom": 0.00010686961925112437,
+              "force_max_ev_angstrom": 0.0007066726684570312
+            },
+            "passed": true
+          },
+          {
+            "rotation": "generic",
+            "matrix": [
+              [
+                0.47849644134159275,
+                -0.6404033540522265,
+                0.6007700889209534
+              ],
+              [
+                0.8008659874855826,
+                0.5988434164166099,
+                0.00048239322706591925
+              ],
+              [
+                -0.3600761387709193,
+                0.4809055070730023,
+                0.7994217082083048
+              ]
+            ],
+            "errors": {
+              "relative_energy_max_error_ev": 8.528761100023985e-06,
+              "force_rms_ev_angstrom": 0.00018687160943146584,
+              "force_max_ev_angstrom": 0.0009352367091162161
+            },
+            "passed": true
+          }
+        ]
+      },
+      "bucket_order_audit": {
+        "caps": {
+          "edge_capacity": 21632,
+          "cell_capacity": 24,
+          "rep_max": 0
+        },
+        "cases": [
+          {
+            "name": "initial",
+            "original": {
+              "edge_count": 20514,
+              "edge_order_sha256": "a2122bf5eb3344bc63e8b4d46ccdf0624d50476be8a4074ffd09e9c8a0043688",
+              "overflow_flag": 0
+            },
+            "ordered": {
+              "edge_count": 20514,
+              "edge_order_sha256": "4a4ef6a65642271838b4bf379ca92b569873f7bab954709e142e63984603777b",
+              "overflow_flag": 0
+            },
+            "repeat": {
+              "edge_count": 20514,
+              "edge_order_sha256": "4a4ef6a65642271838b4bf379ca92b569873f7bab954709e142e63984603777b",
+              "overflow_flag": 0
+            }
+          },
+          {
+            "name": "perturbed",
+            "original": {
+              "edge_count": 20524,
+              "edge_order_sha256": "16d8cc57990b8c62c14f7487629fc2a7891541a47f5ffe0d92ef9f5dd101d38a",
+              "overflow_flag": 0
+            },
+            "ordered": {
+              "edge_count": 20524,
+              "edge_order_sha256": "6d46b9b8b961010140de7b6c0832eec33f17caab643f59778ea6d882efc7c748",
+              "overflow_flag": 0
+            },
+            "repeat": {
+              "edge_count": 20524,
+              "edge_order_sha256": "6d46b9b8b961010140de7b6c0832eec33f17caab643f59778ea6d882efc7c748",
+              "overflow_flag": 0
+            }
+          },
+          {
+            "name": "overflow",
+            "original": {
+              "overflow_flag": 1,
+              "guard_refused": true
+            },
+            "ordered": {
+              "overflow_flag": 1,
+              "guard_refused": true
+            },
+            "repeat": {
+              "overflow_flag": 1,
+              "guard_refused": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "cm299.json",
+      "median_ms": 23.098916019080207,
+      "reference_comparison": {
+        "force_rms_ev_angstrom": 0.00021389159103235965,
+        "force_max_ev_angstrom": 0.0013487673279897194,
+        "relative_energy_max_error_ev": 0.00013555795885622501
+      },
+      "same_coordinate_energy_range_ev": 1.1641532182693481e-10,
+      "rotation_covariance": {
+        "passed": true,
+        "observations": [
+          {
+            "rotation": "cyclic_axes",
+            "matrix": [
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ],
+              [
+                1.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "errors": {
+              "relative_energy_max_error_ev": 2.839602530002594e-06,
+              "force_rms_ev_angstrom": 0.00013811297362116302,
+              "force_max_ev_angstrom": 0.0007817745208740234
+            },
+            "passed": true
+          },
+          {
+            "rotation": "half_turn_x",
+            "matrix": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                -1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                -1.0
+              ]
+            ],
+            "errors": {
+              "relative_energy_max_error_ev": 4.519388312473893e-06,
+              "force_rms_ev_angstrom": 0.00010669422299390645,
+              "force_max_ev_angstrom": 0.0005049034953117371
+            },
+            "passed": true
+          },
+          {
+            "rotation": "generic",
+            "matrix": [
+              [
+                0.47849644134159275,
+                -0.6404033540522265,
+                0.6007700889209534
+              ],
+              [
+                0.8008659874855826,
+                0.5988434164166099,
+                0.00048239322706591925
+              ],
+              [
+                -0.3600761387709193,
+                0.4809055070730023,
+                0.7994217082083048
+              ]
+            ],
+            "errors": {
+              "relative_energy_max_error_ev": 1.7357728211209178e-05,
+              "force_rms_ev_angstrom": 0.00019414042161036604,
+              "force_max_ev_angstrom": 0.0009180067386684657
+            },
+            "passed": true
+          }
+        ]
+      },
+      "bucket_order_audit": {
+        "caps": {
+          "edge_capacity": 14976,
+          "cell_capacity": 24,
+          "rep_max": 0
+        },
+        "cases": [
+          {
+            "name": "initial",
+            "original": {
+              "edge_count": 14208,
+              "edge_order_sha256": "79c150e6b86299b720fa3dc35a910472bb5daa96ade621fdb1a5f58e0ad1e521",
+              "overflow_flag": 0
+            },
+            "ordered": {
+              "edge_count": 14208,
+              "edge_order_sha256": "a94eedd3c71c5281d8a1862bd165f5eda8ae76302cc5709801891dd5a8371685",
+              "overflow_flag": 0
+            },
+            "repeat": {
+              "edge_count": 14208,
+              "edge_order_sha256": "a94eedd3c71c5281d8a1862bd165f5eda8ae76302cc5709801891dd5a8371685",
+              "overflow_flag": 0
+            }
+          },
+          {
+            "name": "perturbed",
+            "original": {
+              "edge_count": 14212,
+              "edge_order_sha256": "4c11865fc8cf658d160447ebbbe332030a752b896522a9a903b50b67397f7c94",
+              "overflow_flag": 0
+            },
+            "ordered": {
+              "edge_count": 14212,
+              "edge_order_sha256": "4e9c95ae3e902ecc4915ad1e799e27fb4ccdf99c43f98eaa33455e65bb61f095",
+              "overflow_flag": 0
+            },
+            "repeat": {
+              "edge_count": 14212,
+              "edge_order_sha256": "4e9c95ae3e902ecc4915ad1e799e27fb4ccdf99c43f98eaa33455e65bb61f095",
+              "overflow_flag": 0
+            }
+          },
+          {
+            "name": "overflow",
+            "original": {
+              "overflow_flag": 1,
+              "guard_refused": true
+            },
+            "ordered": {
+              "overflow_flag": 1,
+              "guard_refused": true
+            },
+            "repeat": {
+              "overflow_flag": 1,
+              "guard_refused": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "original_gate_repeats": [
+    {
+      "fresh_process": "gate-0",
+      "status": "passed",
+      "validation": {
+        "denominator": 24,
+        "complete_potential_probe_count": 21,
+        "cutoff_crossing_probe_count": 3,
+        "maximum_smooth_absolute_error_kj_mol_nm": 2.200826764339581,
+        "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592832253387,
+        "maximum_complete_absolute_error_kj_mol_nm": 2.2382246085908264,
+        "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+      }
+    },
+    {
+      "fresh_process": "gate-1",
+      "status": "passed",
+      "validation": {
+        "denominator": 24,
+        "complete_potential_probe_count": 21,
+        "cutoff_crossing_probe_count": 3,
+        "maximum_smooth_absolute_error_kj_mol_nm": 2.227453773841262,
+        "maximum_subtraction_absolute_error_kj_mol_nm": 0.0064555929743619345,
+        "maximum_complete_absolute_error_kj_mol_nm": 2.224839858710766,
+        "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+      }
+    },
+    {
+      "fresh_process": "gate-2",
+      "status": "passed",
+      "validation": {
+        "denominator": 24,
+        "complete_potential_probe_count": 21,
+        "cutoff_crossing_probe_count": 3,
+        "maximum_smooth_absolute_error_kj_mol_nm": 2.2029114924371243,
+        "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
+        "maximum_complete_absolute_error_kj_mol_nm": 2.2024541925638914,
+        "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+      }
+    }
+  ],
+  "current_profile": {
+    "name": "v44 plus linear layout, exact first-affine, input clone, periodic-aware capacities and C1B lifetime reorder",
+    "scope": "Move the existing C1B gradW zero/store block before gradX. No new operations, runtime path, user setting or precision change. Full callback improvement is not an additional full EMLE/MM gain.",
+    "job_id": "8961648",
+    "exit_status": 0,
+    "walltime_seconds": 556,
+    "files_sha256": {
+      "_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "_inference.py": "80449c5005e55870e6de650afc7c871375aed9b98a57897fe51dee1f1f5d1113",
+      "predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+      "mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
+    "tested_source_sha256": {
+      "fairchem/core/models/uma/uma_nitro_xpu/_inference.py": "fb406e42396b678b54fb77768dee095cfd07a997745c2b1be155868bfa6a8f85",
+      "fairchem/core/models/uma/uma_nitro_xpu/_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "fairchem/core/models/uma/uma_nitro_xpu/__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "fairchem/core/units/mlip_unit/predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+      "fairchem/core/units/mlip_unit/mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
+    "source_ast_sha256": "5c9779a9fb609ca816e0137d37db39bd536aa2e286e2354a84d78f16a1bb8056",
+    "systems": {
+      "pmd.json": {
+        "controls_ms": [
+          30.13793902937323,
+          30.01615055836737
+        ],
+        "candidates_ms": [
+          29.6033431077376,
+          29.660350061021745
+        ],
+        "median_speedup": 1.0150243154176328,
+        "peak_allocated_control_bytes": [
+          2276243968,
+          2276243968
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276243968,
+          2276243968
+        ],
+        "peak_reserved_control_bytes": [
+          null,
+          null
+        ],
+        "peak_reserved_candidate_bytes": [
+          null,
+          null
+        ],
+        "fastest_control_vs_slowest_candidate": 1.0119958293349074,
+        "candidates_both_faster_than_both_controls": true
+      },
+      "cm299.json": {
+        "controls_ms": [
+          21.924669039435685,
+          21.93938847631216
+        ],
+        "candidates_ms": [
+          21.585867507383227,
+          21.499115508049726
+        ],
+        "median_speedup": 1.0180822747460716,
+        "peak_allocated_control_bytes": [
+          2276243968,
+          2276243968
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276243968,
+          2276243968
+        ],
+        "peak_reserved_control_bytes": [
+          null,
+          null
+        ],
+        "peak_reserved_candidate_bytes": [
+          null,
+          null
+        ],
+        "fastest_control_vs_slowest_candidate": 1.0156955254143283,
+        "candidates_both_faster_than_both_controls": true
+      }
+    },
+    "original_derivative_gate": {
+      "denominator": 24,
+      "complete_potential_probe_count": 21,
+      "cutoff_crossing_probe_count": 3,
+      "maximum_smooth_absolute_error_kj_mol_nm": 2.0613969753030688,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.4537130235694349,
+      "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+    },
+    "gate_policy": {
+      "schema_version": "reactra.reactive-force-checks/1",
+      "atoms": [
+        "mvap.O6",
+        "atp.P1",
+        "mvap.H1",
+        "atp.O4",
+        "mg2.Mg1",
+        "chain:A/residue:148/atom:N",
+        "chain:A/residue:147/atom:C",
+        "chain:A/residue:147/atom:CA"
+      ],
+      "displacement_nm": 0.0001,
+      "absolute_tolerance_kj_mol_nm": 5.0,
+      "relative_tolerance": 0.01
+    },
+    "reference_rows_passed": 8,
+    "three_rotation_rows_passed": 8,
+    "numerical_limits": {
+      "force_rms_ev_angstrom": 0.0005,
+      "force_max_ev_angstrom": 0.003,
+      "relative_energy_max_error_ev": 0.003
+    },
+    "performance_scope": "Four sequential fresh A-B-B-A processes,512 changing-coordinate host-to-host E/F callbacks per fixture/case after warmup. Startup excluded; shared compiler cache, not filesystem-cold or compiler-empty.",
+    "memory_scope": "Observed process highwater unchanged. Reserved memory not measured.",
+    "maintained_source_equivalence": "Formatted _inference.py removes exactly one blank line from retained native source; full ASTs match. Other four runtime files match native bytes exactly. Both source hashes retained; no inference-file byte-identity claim.",
+    "reactra_research_archive": "research/nnp-acceleration/c1b-lifetime-v5/native"
+  },
+  "linear_layout_update": {
+    "name": "v44 plus FP32 frozen-linear layout",
+    "scope": "Same mathematical model and FP32 linear operations; cached weight layout only. Initial v44 qualification remains recorded above. Additional native ABBA energy/force measurements and original derivative admission below. No full dynamics speedup inferred from this incremental gain.",
+    "job_id": "8960614",
+    "tested_candidate_sha256": "d20796cc1ec38e27f9e6419ba0880ebb00a4c3eefc068ddef77275411a36714c",
+    "files_sha256": {
+      "_inference.py": "d005b56398180a1f8f41173b126fa06f82acd3012c9625aae2110642e4e68a16",
+      "_ops.py": "3e245ec8736c6529dab0d6edafcd1605e3b1638b62e8c47ea61e0feb58706b87",
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0"
+    },
+    "systems": {
+      "pmd.json": {
+        "controls_ms": [
+          31.619421439245343,
+          31.557629466988146
+        ],
+        "candidates_ms": [
+          31.214274582453072,
+          31.201428500935435
+        ],
+        "median_speedup": 1.012198017249406,
+        "fastest_control_vs_slowest_candidate": 1.0109999315738731,
+        "candidates_both_faster_than_both_controls": true
+      },
+      "cm299.json": {
+        "controls_ms": [
+          23.02958711516112,
+          22.83095195889473
+        ],
+        "candidates_ms": [
+          22.71538251079619,
+          22.71306444890797
+        ],
+        "median_speedup": 1.0095114876970142,
+        "fastest_control_vs_slowest_candidate": 1.0050877174550599,
+        "candidates_both_faster_than_both_controls": true
+      }
+    },
+    "original_derivative_gate": {
+      "denominator": 24,
+      "complete_potential_probe_count": 21,
+      "cutoff_crossing_probe_count": 3,
+      "maximum_smooth_absolute_error_kj_mol_nm": 1.6292994688265026,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.62842848431319,
+      "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+    },
+    "gate_policy": {
+      "schema_version": "reactra.reactive-force-checks/1",
+      "atoms": [
+        "mvap.O6",
+        "atp.P1",
+        "mvap.H1",
+        "atp.O4",
+        "mg2.Mg1",
+        "chain:A/residue:148/atom:N",
+        "chain:A/residue:147/atom:C",
+        "chain:A/residue:147/atom:CA"
+      ],
+      "displacement_nm": 0.0001,
+      "absolute_tolerance_kj_mol_nm": 5.0,
+      "relative_tolerance": 0.01
+    }
+  },
+  "radial_affine_update": {
+    "name": "v44 plus FP32 linear layout and exact first-affine factorization",
+    "scope": "Evaluate only the Gaussian block per edge; frozen element embeddings are projected once and indexed by ordered type pair. The cache belongs to the existing model cache. Original backward retained. No interpolation, new user setting or service. Additional callback gain is not a measured full-dynamics speedup.",
+    "job_id": "8960750",
+    "files_sha256": {
+      "_inference.py": "1b011f5499ba8c23feb6dec098473ed997516df4998c2a3c31c123406e8751bc",
+      "_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0"
+    },
+    "tested_source_sha256": {
+      "_ops.py": "cff859d67471b40383adbd4852c9ecc17b2fad948485e091426dd18c6a74eb8b",
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "_inference.py": "d1c0859be2b69cb007cc4f3279324d25da341666886fb95afd90acc0e52eed13"
+    },
+    "systems": {
+      "pmd.json": {
+        "controls_ms": [
+          31.15245804656297,
+          31.022511539049447
+        ],
+        "candidates_ms": [
+          30.72012751363218,
+          30.671192449517548
+        ],
+        "median_speedup": 1.012764827713968,
+        "fastest_control_vs_slowest_candidate": 1.0098431891366038,
+        "candidates_both_faster_than_both_controls": true
+      },
+      "cm299.json": {
+        "controls_ms": [
+          22.733067511580884,
+          22.67122350167483
+        ],
+        "candidates_ms": [
+          22.36412256024778,
+          22.319676470942795
+        ],
+        "median_speedup": 1.0161242328917068,
+        "fastest_control_vs_slowest_candidate": 1.0137318573800398,
+        "candidates_both_faster_than_both_controls": true
+      }
+    },
+    "original_derivative_gate": {
+      "denominator": 24,
+      "complete_potential_probe_count": 21,
+      "cutoff_crossing_probe_count": 3,
+      "maximum_smooth_absolute_error_kj_mol_nm": 2.0763753103092313,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.4658135864883661,
+      "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+    },
+    "gate_policy": {
+      "schema_version": "reactra.reactive-force-checks/1",
+      "atoms": [
+        "mvap.O6",
+        "atp.P1",
+        "mvap.H1",
+        "atp.O4",
+        "mg2.Mg1",
+        "chain:A/residue:148/atom:N",
+        "chain:A/residue:147/atom:C",
+        "chain:A/residue:147/atom:CA"
+      ],
+      "displacement_nm": 0.0001,
+      "absolute_tolerance_kj_mol_nm": 5.0,
+      "relative_tolerance": 0.01
+    },
+    "observed_peak_allocator_increase_bytes": 25345024,
+    "maintained_source_equivalence": "Inference and kernel calculation AST match native candidate; docstrings/formatting and equivalent split conjunction assertions only."
+  },
+  "training_telemetry_import_update": {
+    "scope": "Remove eager training-only WandB import from inference. Same import at both training-use sites; existing logger expressions and all other AST nodes unchanged. Dependency reduction, not a claimed per-step or reliably quantified startup gain.",
+    "job_id": "8961320",
+    "files_sha256": {
+      "units/mlip_unit/mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
+    "native_checks": "All8 reference/rotation rows pass; WandB/common.logger absent after actual candidate inference, present in controls. Original24axis derivative gate unchanged and passes.",
+    "training_checks": "32 old/new actual logger-use block states compare results/errors/short-circuit calls. Includes master/debug/configured/missing initialization. No full training run claim.",
+    "original_derivative_gate": {
+      "denominator": 24,
+      "complete_potential_probe_count": 21,
+      "cutoff_crossing_probe_count": 3,
+      "maximum_smooth_absolute_error_kj_mol_nm": 2.194939981913194,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.5039941740687937,
+      "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+    },
+    "startup_first_load_s": {
+      "control-before": 36.05093500693329,
+      "logger-first": 14.388150623999536,
+      "logger-second": 12.293407516088337,
+      "control-after": 14.39559609000571
+    },
+    "timing_limit": "Openingcontrol36.05s,candidates14.39/12.29,closingcontrol14.40 show major cache/first-use effects. No10s claim; no repeatable whole-startup reduction established. Warm/cold filesystem not controlled. Extra import-only allocation deferred for science queue priority.",
+    "callback_effect": "No per-step gain established. Native GPU peak allocation identical. Crossprocess forces not bitwise, including control/control; all reference limits unchanged."
+  },
+  "input_clone_update": {
+    "name": "v44 plus FP32 layout, exact first-affine factorization and clone-before-transfer",
+    "scope": "One-line input preparation order change retains existing AtomicData validation before transfer and preserves caller-owned input device. Not a numerical precision change. Fresh-process ABBA ordinary changing-coordinate callbacks; no additional full EMLE/MM speedup claim. Prior profiles retained in radial_affine_update and linear_layout_update.",
+    "job_id": "8961256",
+    "files_sha256": {
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "_inference.py": "1b011f5499ba8c23feb6dec098473ed997516df4998c2a3c31c123406e8751bc",
+      "_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+      "mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
+    "tested_predict_sha256": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+    "systems": {
+      "pmd.json": {
+        "controls_ms": [
+          30.96869809087366,
+          30.98749998025596
+        ],
+        "candidates_ms": [
+          30.532756471075118,
+          30.563830980099738
+        ],
+        "median_speedup": 1.0140696994024703,
+        "peak_allocated_control_bytes": [
+          2276606976,
+          2276606976
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276584448,
+          2276584448
+        ],
+        "peak_reserved_control_bytes": [
+          null,
+          null
+        ],
+        "peak_reserved_candidate_bytes": [
+          null,
+          null
+        ],
+        "fastest_control_vs_slowest_candidate": 1.0132466087460545,
+        "candidates_both_faster_than_both_controls": true
+      },
+      "cm299.json": {
+        "controls_ms": [
+          22.62565412092954,
+          22.54146710038185
+        ],
+        "candidates_ms": [
+          22.2370094852522,
+          22.162706591188908
+        ],
+        "median_speedup": 1.0172840101848641,
+        "peak_allocated_control_bytes": [
+          2276606976,
+          2276606976
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276584448,
+          2276584448
+        ],
+        "peak_reserved_control_bytes": [
+          null,
+          null
+        ],
+        "peak_reserved_candidate_bytes": [
+          null,
+          null
+        ],
+        "fastest_control_vs_slowest_candidate": 1.0136914820012812,
+        "candidates_both_faster_than_both_controls": true
+      }
+    },
+    "original_derivative_gate": {
+      "denominator": 24,
+      "complete_potential_probe_count": 21,
+      "cutoff_crossing_probe_count": 3,
+      "maximum_smooth_absolute_error_kj_mol_nm": 2.1106599466875196,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455592903421348,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.4851048432756215,
+      "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+    },
+    "gate_policy": {
+      "schema_version": "reactra.reactive-force-checks/1",
+      "atoms": [
+        "mvap.O6",
+        "atp.P1",
+        "mvap.H1",
+        "atp.O4",
+        "mg2.Mg1",
+        "chain:A/residue:148/atom:N",
+        "chain:A/residue:147/atom:C",
+        "chain:A/residue:147/atom:CA"
+      ],
+      "displacement_nm": 0.0001,
+      "absolute_tolerance_kj_mol_nm": 5.0,
+      "relative_tolerance": 0.01
+    },
+    "semantic_probe": {
+      "job_id": "8961245",
+      "passed_checks": 18,
+      "scope": "CPU/XPU inputs,FP32/64,stridedpositions,optionalfields,independentstorage,two-systembatch,invalidmetadatarefusal,actualcollation.",
+      "cpu_input_prepare_ms": {
+        "controls": [
+          0.5205685738474131,
+          0.5195406265556812
+        ],
+        "candidates": [
+          0.17297605518251657,
+          0.17492647748440504
+        ]
+      },
+      "already_xpu_input": "~.45ms unchanged"
+    },
+    "maintained_source_equivalence": "Predictor bytes match native candidate exactly. Underlying Nitro calculation retains qualified8d52c753 source; no additional mathematical changes."
+  },
+  "periodic_capacity_update": {
+    "name": "v44 plus linear layout, exact first-affine, input clone and periodic-aware capacities",
+    "scope": "Nonperiodic calls use zero images, including edge/cell retries. Existing geometry/highwater keys bind periodicity. Periodic sizing/growth and all refusal guards retained. No new setting/cache/service or extra per-step GPU check. Full callback gain is not a measured full EMLE/MM gain.",
+    "job_id": "8961502",
+    "files_sha256": {
+      "_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "_inference.py": "3d1d296495cb6c6dd45ea87fa5f26d50e3d6550e42a9f570c8dfd2931003f166",
+      "predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+      "mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
+    "tested_source_sha256": {
+      "fairchem/core/models/uma/uma_nitro_xpu/_ops.py": "bee970a53195d54b5b2e12ba2135deed1c2b21dd02b1edcb9a085b85fee84193",
+      "fairchem/core/models/uma/uma_nitro_xpu/__init__.py": "a0a33787dd92ed008b3fd41183469b1fac5092a42cdf7fee4684dc1aa37548f0",
+      "fairchem/core/models/uma/uma_nitro_xpu/_inference.py": "3d1d296495cb6c6dd45ea87fa5f26d50e3d6550e42a9f570c8dfd2931003f166",
+      "fairchem/core/units/mlip_unit/predict.py": "04a86c8baea8d29121273326283f575b83fa9adac0e7f9f0b39aae5d215cbd92",
+      "fairchem/core/units/mlip_unit/mlip_unit.py": "cdfe5b9d77d1ef3ce9f756d6d047454234ce6caeee7d074db81be02d295dbc82"
+    },
+    "systems": {
+      "pmd.json": {
+        "controls_ms": [
+          30.622310587204993,
+          30.623111524619162
+        ],
+        "candidates_ms": [
+          30.08262743242085,
+          29.985455912537873
+        ],
+        "median_speedup": 1.0196000721398786,
+        "peak_allocated_control_bytes": [
+          2276584448,
+          2276584448
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276243968,
+          2276243968
+        ],
+        "peak_reserved_control_bytes": [
+          null,
+          null
+        ],
+        "peak_reserved_candidate_bytes": [
+          null,
+          null
+        ],
+        "fastest_control_vs_slowest_candidate": 1.017940027213265,
+        "candidates_both_faster_than_both_controls": true
+      },
+      "cm299.json": {
+        "controls_ms": [
+          22.293575457297266,
+          22.249230067245662
+        ],
+        "candidates_ms": [
+          21.85886853840202,
+          21.89555554650724
+        ],
+        "median_speedup": 1.0180183251436186,
+        "peak_allocated_control_bytes": [
+          2276584448,
+          2276584448
+        ],
+        "peak_allocated_candidate_bytes": [
+          2276243968,
+          2276243968
+        ],
+        "peak_reserved_control_bytes": [
+          null,
+          null
+        ],
+        "peak_reserved_candidate_bytes": [
+          null,
+          null
+        ],
+        "fastest_control_vs_slowest_candidate": 1.0161527995938353,
+        "candidates_both_faster_than_both_controls": true
+      }
+    },
+    "original_derivative_gate": {
+      "denominator": 24,
+      "complete_potential_probe_count": 21,
+      "cutoff_crossing_probe_count": 3,
+      "maximum_smooth_absolute_error_kj_mol_nm": 2.1535491440445185,
+      "maximum_subtraction_absolute_error_kj_mol_nm": 0.006455593045529895,
+      "maximum_complete_absolute_error_kj_mol_nm": 1.4781925578135997,
+      "scope": "declared source-coordinate probes only; no chemical-accuracy claim"
+    },
+    "gate_policy": {
+      "schema_version": "reactra.reactive-force-checks/1",
+      "atoms": [
+        "mvap.O6",
+        "atp.P1",
+        "mvap.H1",
+        "atp.O4",
+        "mg2.Mg1",
+        "chain:A/residue:148/atom:N",
+        "chain:A/residue:147/atom:C",
+        "chain:A/residue:147/atom:CA"
+      ],
+      "displacement_nm": 0.0001,
+      "absolute_tolerance_kj_mol_nm": 5.0,
+      "relative_tolerance": 0.01
+    },
+    "graph_phase": {
+      "job": "8961481",
+      "exit_status": 0,
+      "walltime_seconds": 48,
+      "scope": "Graph construction phase only, graph-replayed four builds/replay; no NNP model/inference/MD. Exact graph and cache-transition/overflow checks pass. Not a fullNNP speedup.",
+      "systems": {
+        "pmd.json": {
+          "controls_ms": [
+            0.8849658479448408,
+            0.8856889035087079
+          ],
+          "candidates_ms": [
+            0.2794292231556028,
+            0.2797387423925102
+          ],
+          "median_saving_ms": 0.6057433929527178,
+          "conservative_speedup": 3.163544099669675
+        },
+        "cm299.json": {
+          "controls_ms": [
+            0.59110889560543,
+            0.5912009801249951
+          ],
+          "candidates_ms": [
+            0.29025672120042145,
+            0.2902404812630266
+          ],
+          "median_saving_ms": 0.30090633663348854,
+          "conservative_speedup": 2.03650373076898
+        }
+      },
+      "checks_passed": 21,
+      "source_sha256": "ed80644c3f86749007d29706670babd9c02c61f90c09b2767fe0eccc460fa29a"
+    },
+    "observed_process_peak_allocated_reduction_bytes": 340480,
+    "memory_scope": "Observed process highwater, not independently reset per fixture. Table shape reduction is not the same as whole-model peak-memory reduction; reserved memory not measured.",
+    "maintained_source_equivalence": "All five maintained runtime files byte-for-byte match the native tested candidate."
+  }
+}

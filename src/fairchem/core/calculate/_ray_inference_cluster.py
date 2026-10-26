@@ -24,7 +24,6 @@ from pathlib import Path
 from typing import Any
 
 import backoff
-import torch
 import yaml
 from monty.dev import requires
 
@@ -36,6 +35,7 @@ try:
 except ImportError:
     ray_installed = False
 
+from fairchem.core.common.device_utils import device_count
 from fairchem.core.common.utils import recursive_dict_merge
 from fairchem.core.components.batch_server import (
     setup_batch_predict_server,
@@ -660,8 +660,8 @@ def get_local_inference_raycluster(
         num_cpus: CPUs to give the single local node. Defaults to 8.
         num_gpus: GPUs to give the single local node. The cluster started here
             is always single-node, so this is a per-node count, not a
-            cluster-wide one. If None, defaults to every GPU visible to this
-            process (``torch.cuda.device_count()``).
+            cluster-wide one. If None, defaults to every accelerator device
+            visible to this process (``device_count()``).
         start_inference_server: If True (default), start FAIRChem Ray Serve
             inference server. Requires ``predict_unit`` to be provided.
         predict_unit: Predict unit to serve. Required when
@@ -677,7 +677,7 @@ def get_local_inference_raycluster(
         num_cpus = 8
 
     if num_gpus is None:
-        num_gpus = torch.cuda.device_count()
+        num_gpus = device_count()
 
     if head_file is None:
         cluster_id = str(uuid.uuid4())
